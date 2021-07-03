@@ -24,39 +24,41 @@ const ResumeAccordion = ({ files }) => {
                              aria-labelledby="headingOne" 
                              data-bs-parent="#accordionExample">
                                 <div className="accordion-body">
-                                    <table class="table table-bordered">
-                                        <tr>
-                                            <th scope="row">Name</th>
-                                            <td>Parth Brahmbhatt</td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">Email</th>
-                                            <td>Parth Brahmbhatt</td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">Contact number</th>
-                                            <td>Parth Brahmbhatt</td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">Location</th>
-                                            <td>Parth Brahmbhatt</td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">Skills</th>
-                                            <td>Parth Brahmbhatt</td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">Projects</th>
-                                            <td>Parth Brahmbhatt</td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">Work Experience</th>
-                                            <td>Parth Brahmbhatt</td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">Education</th>
-                                            <td>Parth Brahmbhatt</td>
-                                        </tr>
+                                    <table className="table table-bordered">
+                                        <tbody>
+                                            <tr>
+                                                <th scope="row">Name</th>
+                                                <td>Parth Brahmbhatt</td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">Email</th>
+                                                <td>Parth Brahmbhatt</td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">Contact number</th>
+                                                <td>Parth Brahmbhatt</td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">Location</th>
+                                                <td>Parth Brahmbhatt</td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">Skills</th>
+                                                <td>Parth Brahmbhatt</td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">Projects</th>
+                                                <td>Parth Brahmbhatt</td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">Work Experience</th>
+                                                <td>Parth Brahmbhatt</td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">Education</th>
+                                                <td>Parth Brahmbhatt</td>
+                                            </tr>
+                                        </tbody>
                                     </table>
                                 </div>
                             </div>

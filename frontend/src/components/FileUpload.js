@@ -8,19 +8,25 @@ const FileUpload = () => {
   const [uploadedFile, setUploadedFile] = useState({});
   const [message, setMessage] = useState('');
   const [uploadDisabled, setUploadDisable] = useState(false);
+  const [trainingDisabled, setTrainningDisable] = useState(false);
 
   const onChange = e => {
-    setFile(e.target.files[0]);
-    setFilename(e.target.files[0].name);
+    if(e.target.files[0]) {
+      setFile(e.target.files[0]);
+      setFilename(e.target.files[0].name);
+    } else {
+      setFile(undefined);
+      setFilename('');
+    }
   };
 
   const onSubmit = async e => {
     e.preventDefault();
     const formData = new FormData();
-    formData.append('file', file);
+    formData.append('resume', file);
 
     try {
-      const res = await axios.post('/upload', formData, {
+      const res = await axios.post('http://127.0.0.1:5000/', formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         },
@@ -32,18 +38,55 @@ const FileUpload = () => {
       const { fileName, filePath } = res.data;
 
       setUploadedFile({ fileName, filePath });
-
       setMessage('Resume Uploaded');
 
     } catch (err) {
-      if (err.response.status === 500 || err.response.status === 404) {
+      if (err.response && 
+          (err.response.status === 500 || 
+          err.response.status === 404 || 
+          err.response.status === 405)) {
         setMessage('There was a problem with the server');
       } else {
-        setMessage(err.response.data.msg);
+        if(!err.response) {
+          setMessage('There was a problem with the server');
+        } else {
+          setMessage(err.response.data.msg);
+        }
       }
     }
 
+    setTimeout(() => setMessage(''), 6000);
     setUploadDisable(false);
+  };
+
+
+  const trainModel = async e => {
+    e.preventDefault();
+
+    try {
+      setTrainningDisable(true);
+
+      const res = await axios.get('http://127.0.0.1:5000/train');
+
+      setMessage(res.data.training);
+
+    } catch (err) {
+      if (err.response && 
+          (err.response.status === 500 || 
+          err.response.status === 404 || 
+          err.response.status === 405)) {
+        setMessage('There was a problem with the server');
+      } else {
+        if(!err.response) {
+          setMessage('There was a problem with the server');
+        } else {
+          setMessage(err.response.data.msg);
+        }
+      }
+    }
+
+    setTimeout(() => setMessage(''), 6000);
+    setTrainningDisable(false);
   };
 
   return (
@@ -73,6 +116,22 @@ const FileUpload = () => {
           )}
         </div>
       </form>
+      <div class="col text-center">
+        {trainingDisabled ? (
+          <button className="btn btn-primary mb-4 center" type="button" disabled>
+            <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+            <span className="visually-hidden">Training model...</span>
+          </button> ) 
+          : (
+          <input
+            disabled={uploadDisabled}
+            type='button'
+            value='Train model'
+            className='btn btn-primary btn-block mb-4 center'
+            onClick={trainModel}
+            /> 
+        )}
+      </div>
     </Fragment>
   );
 };
