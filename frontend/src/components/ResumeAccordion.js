@@ -1,12 +1,48 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import axios from 'axios';
+import { useDispatch, useSelector, } from 'react-redux';
+import { setResumes } from '../Store/actions';
+import { makeSelectResumes } from '../Store/selectors';
+import { createSelector } from 'reselect';
 
-const ResumeAccordion = ({ files }) => {
+const stateSelector = createSelector(makeSelectResumes, (existing_resumes) => ({
+    existing_resumes
+}));
+  
+const actionDispatcher = (dispatch) => ({
+    setResumes: (existing_resumes) => dispatch(setResumes(existing_resumes))
+});
+
+const ResumeAccordion = ({ existing_resumes }) => {
+    const { setResumes } = actionDispatcher(useDispatch());
+    
+    console.log(existing_resumes);
+
+    const onDelete = async e => {
+        const data = {
+            applicant_id: e.target.id,
+            resume_id: e.target.getAttribute('resume_id'),
+        }
+
+        console.log(data)
+        
+        axios.delete('http://127.0.0.1:5000/', {
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            data
+        }).then((res) => {
+            setResumes(res.data.applicants);
+        });
+    }
+
+
     return(
         <div>
             <h5 className="card-title mb-4">Uploaded resumes</h5>
             <div className="accordion" id="accordionExample">
-                {files.map((resume, index) => {
+                {existing_resumes.map((resume, index) => {
                     return(
                         <div className="accordion-item" id={index} key={index}>
                             <h2 className="accordion-header">
@@ -16,7 +52,7 @@ const ResumeAccordion = ({ files }) => {
                                 data-bs-target={"#collapse" + index}
                                 aria-expanded="true"
                                 aria-controls={"#collapse" + index}>
-                                {resume}
+                                {resume.email}
                                 </button>
                             </h2>
                             <div id={"collapse" + index}
@@ -28,38 +64,43 @@ const ResumeAccordion = ({ files }) => {
                                         <tbody>
                                             <tr>
                                                 <th scope="row">Name</th>
-                                                <td>Parth Brahmbhatt</td>
-                                            </tr>
-                                            <tr>
-                                                <th scope="row">Email</th>
-                                                <td>Parth Brahmbhatt</td>
+                                                <td>{resume.name}</td>
                                             </tr>
                                             <tr>
                                                 <th scope="row">Contact number</th>
-                                                <td>Parth Brahmbhatt</td>
+                                                <td>{resume.phone}</td>
                                             </tr>
                                             <tr>
                                                 <th scope="row">Location</th>
-                                                <td>Parth Brahmbhatt</td>
+                                                <td>{resume.location}</td>
                                             </tr>
                                             <tr>
                                                 <th scope="row">Skills</th>
-                                                <td>Parth Brahmbhatt</td>
-                                            </tr>
-                                            <tr>
-                                                <th scope="row">Projects</th>
-                                                <td>Parth Brahmbhatt</td>
+                                                <td>{resume.applicant_resume[0].skills}</td>
                                             </tr>
                                             <tr>
                                                 <th scope="row">Work Experience</th>
-                                                <td>Parth Brahmbhatt</td>
+                                                <td>{resume.applicant_resume[0].work_experience}</td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">School</th>
+                                                <td>{resume.applicant_resume[0].college}</td>
                                             </tr>
                                             <tr>
                                                 <th scope="row">Education</th>
-                                                <td>Parth Brahmbhatt</td>
+                                                <td>{resume.applicant_resume[0].degree}</td>
                                             </tr>
                                         </tbody>
                                     </table>
+                                    <button 
+                                        className="btn btn-danger" 
+                                        onClick={onDelete}
+                                        id={resume.id} 
+                                        resume_id={resume.applicant_resume[0].id} 
+                                        type="button"
+                                    >
+                                            Delete
+                                    </button>
                                 </div>
                             </div>
                         </div>

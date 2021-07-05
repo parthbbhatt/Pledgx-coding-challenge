@@ -1,22 +1,33 @@
 import React, { Fragment, useState } from 'react';
 import Message from './Message';
 import axios from 'axios';
+import { makeSelectResumes } from '../Store/selectors';
+import { createSelector } from 'reselect';
+import { useDispatch, useSelector, } from 'react-redux';
+import { setResumes } from '../Store/actions';
 
-const FileUpload = () => {
+const stateSelector = createSelector(makeSelectResumes, (existing_resumes) => ({
+  existing_resumes
+}));
+
+const actionDispatcher = (dispatch) => ({
+  setResumes: (existing_resumes) => dispatch(setResumes(existing_resumes))
+});
+
+const FileUpload = (props) => {
   const [file, setFile] = useState('');
-  const [filename, setFilename] = useState('Choose File');
-  const [uploadedFile, setUploadedFile] = useState({});
   const [message, setMessage] = useState('');
   const [uploadDisabled, setUploadDisable] = useState(false);
   const [trainingDisabled, setTrainningDisable] = useState(false);
 
+  const { existing_resumes } = useSelector(stateSelector);
+  const { setResumes } = actionDispatcher(useDispatch());
+
   const onChange = e => {
     if(e.target.files[0]) {
       setFile(e.target.files[0]);
-      setFilename(e.target.files[0].name);
     } else {
       setFile(undefined);
-      setFilename('');
     }
   };
 
@@ -35,13 +46,12 @@ const FileUpload = () => {
         }
       });
 
-      const { fileName, filePath } = res.data;
+      setResumes(res.data.applicants);
 
-      setUploadedFile({ fileName, filePath });
       setMessage('Resume Uploaded');
 
     } catch (err) {
-      if (err.response && 
+      if (err.response &&
           (err.response.status === 500 || 
           err.response.status === 404 || 
           err.response.status === 405)) {
@@ -116,7 +126,7 @@ const FileUpload = () => {
           )}
         </div>
       </form>
-      <div class="col text-center">
+      <div className="col text-center">
         {trainingDisabled ? (
           <button className="btn btn-primary mb-4 center" type="button" disabled>
             <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
