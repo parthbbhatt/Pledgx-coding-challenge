@@ -1,10 +1,9 @@
 # Resume Scrapper
 
 ##### I have deployed this application to Heroku, pleases test it out on this link:
-[https://resume-scrapper-fe.herokuapp.com/](https://resume-scrapper-fe.herokuapp.com/) <br />
+[https://resume-scrapper-fe.herokuapp.com/](https://resume-scrapper-fe.herokuapp.com/)  
 
-
-
+---
 
 This project parses through resumes using natural language processing as well as manual parsing through regular expressions. It then returns this to the frontend application. It also saves the parsed applicant information in a hosted postgresql database.
 
