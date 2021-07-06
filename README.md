@@ -1,7 +1,7 @@
 # Resume Scrapper
 
 ##### I have deployed this application to Heroku, pleases test it out on this link:
-[https://resume-scrapper-fe.herokuapp.com/](https://resume-scrapper-fe.herokuapp.com/)          
+[https://resume-scrapper-fe.herokuapp.com/](https://resume-scrapper-fe.herokuapp.com/) <br />
 
 
 
