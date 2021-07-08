@@ -1,6 +1,6 @@
 # Resume Scrapper
 
-##### I have deployed this application to Heroku, pleases test it out on this link:
+##### I have deployed this application to Heroku, pleases test it out on this link (It may take a minute or two to load up the page since I am using the free plan):
 [https://resume-scrapper-fe.herokuapp.com/](https://resume-scrapper-fe.herokuapp.com/)  
 
 ---
